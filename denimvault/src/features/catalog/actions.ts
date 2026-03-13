@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { ActionResponse } from "@/core/errors";
 import { JeanModel } from "@/core/types/models";
 import { ModelRepository, InventoryRepository } from "@/features/shared/repository";
-import { supabase } from "@/core/lib/supabase";
+import { createClient } from "@/core/lib/supabase/server";
 
 export async function createModelAction(
   formData: FormData
@@ -33,6 +33,7 @@ export async function createModelAction(
       const fileName = `${sku}-${Math.random().toString(36).substring(2)}.${fileExt}`;
       const filePath = `public/${fileName}`;
 
+      const supabase = await createClient();
       const { error: uploadError } = await supabase.storage
         .from('models')
         .upload(filePath, imageFile, {
@@ -68,7 +69,7 @@ export async function createModelAction(
     // Generic error handling
     return {
       success: false,
-      error: { message: "Hubo un error al crear el modelo. Verifica que el SKU no esté duplicado." },
+      error: { message: error.message || "Hubo un error al crear el modelo. Verifica que el SKU no esté duplicado." },
     };
   }
 }

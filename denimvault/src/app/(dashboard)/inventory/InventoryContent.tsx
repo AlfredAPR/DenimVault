@@ -87,17 +87,26 @@ export default function InventoryContent({ initialModels, initialInventory }: In
           modelStock.sort((a,b) => parseInt(a.size) - parseInt(b.size));
           if (modelStock.length === 0) return null;
 
+          const isSoldOut = modelStock.every(item => item.quantity === 0);
+
           return (
-            <Card key={model.id} className={initialModelId === model.id ? "ring-2 ring-primary" : ""}>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <Card key={model.id} className={`${initialModelId === model.id ? "ring-2 ring-primary " : ""}${isSoldOut ? "bg-slate-100/50 dark:bg-slate-800/30 border-slate-300 dark:border-slate-700 opacity-80 mix-blend-luminosity grayscale-[0.5]" : ""}`}>
+              <CardHeader className="flex flex-row items-baseline justify-between pb-2">
                 <div className="flex items-center gap-4">
                   <div className="h-12 w-12 rounded overflow-hidden bg-slate-100 flex-shrink-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={model.image_url || ""} alt={model.name} className="h-full w-full object-cover" />
                   </div>
                   <div>
-                    <CardTitle className="text-lg">{model.name}</CardTitle>
-                    <CardDescription className="font-mono text-xs">{model.sku} &bull; {model.fit_type}</CardDescription>
+                    <CardTitle className="text-lg flex flex-wrap items-center gap-2">
+                      {model.name}
+                      {isSoldOut && (
+                        <Badge variant="secondary" className="bg-slate-500 text-white hover:bg-slate-600 border-none">
+                          Modelo agotado
+                        </Badge>
+                      )}
+                    </CardTitle>
+                    <CardDescription className="font-mono text-xs mt-1">{model.sku} &bull; {model.fit_type}</CardDescription>
                   </div>
                 </div>
               </CardHeader>

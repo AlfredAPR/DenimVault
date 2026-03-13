@@ -30,11 +30,6 @@ const items = [
     url: "/inventory",
     icon: Package,
   },
-  {
-    title: "Ajustes",
-    url: "#",
-    icon: Settings,
-  },
 ]
 
 export function AppSidebar() {
