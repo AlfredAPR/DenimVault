@@ -67,8 +67,14 @@ export default function NewModelPage() {
 
             <div className="space-y-2">
               <Label htmlFor="image">Imagen del Modelo</Label>
-              <Input id="image" name="image" type="file" accept="image/*" className="cursor-pointer" />
-              <p className="text-xs text-muted-foreground">Sube un archivo PNG, JPG o WEBP. (Requiere el bucket "models" en Supabase).</p>
+              <Input 
+                id="image" 
+                name="image" 
+                type="file" 
+                accept="image/*" 
+                className="cursor-pointer file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 h-12 pt-2.5" 
+              />
+              <p className="text-xs text-muted-foreground">Sube un archivo PNG, JPG o WEBP.</p>
             </div>
 
             {error && (

@@ -33,10 +33,13 @@ export async function createModelAction(
       const fileName = `${sku}-${Math.random().toString(36).substring(2)}.${fileExt}`;
       const filePath = `public/${fileName}`;
 
+      const fileBuffer = await imageFile.arrayBuffer();
+
       const supabase = await createClient();
       const { error: uploadError } = await supabase.storage
         .from('models')
-        .upload(filePath, imageFile, {
+        .upload(filePath, fileBuffer, {
+          contentType: imageFile.type,
           cacheControl: '3600',
           upsert: false
         });
